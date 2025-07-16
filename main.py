@@ -21,19 +21,20 @@ def main():
 
     # Infinite Game loop
     while True:
+
         # Make the "X" button work
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                print(dt)
                 print("Closing Ateroids.")
                 return
             
-        # fills the screen black
+        # fills the screen black and draws player
         pygame.Surface.fill(screen,(0,0,0))
         player.draw(screen)
-        # refreshes the screen
+        player.update(dt)
+
+        # refreshes the screen, sets it to 60fps, sets dt(time from last refresh) to seconds
         pygame.display.flip()
-        # sets the fps to 60
         dt = clock.tick(60) / 1000
 
 
