@@ -1,5 +1,6 @@
 import pygame # type: ignore
 from constants import *
+from player import Player
 
 
 def main():
@@ -7,6 +8,9 @@ def main():
 
     clock = pygame.time.Clock()
     dt = 0
+
+    # init player class in the middle of the screen
+    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
     # New GUI Window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -26,6 +30,7 @@ def main():
             
         # fills the screen black
         pygame.Surface.fill(screen,(0,0,0))
+        player.draw(screen)
         # refreshes the screen
         pygame.display.flip()
         # sets the fps to 60
