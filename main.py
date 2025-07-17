@@ -56,7 +56,7 @@ def main():
             if asteroid.collision(player) and player_invincibility <= 0:
                 if player_life > 0:
                     player_life -= 1
-                    player.position = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+                    player.position = pygame.math.Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
                     player_invincibility = 1
                 else:
                     print("Game over!")
