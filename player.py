@@ -10,7 +10,7 @@ class Player(CircleShape):
         self.rotation = 0
         self.timer = 0
 
-    
+    # triangle object for drawing the player
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -31,6 +31,8 @@ class Player(CircleShape):
     def update(self, dt):
         # cooldown reduction for shooting
         self.timer -= dt
+
+        # keyboard input handling
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:

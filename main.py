@@ -6,6 +6,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from explosion import Explosion
 
 
 def main():
@@ -22,11 +23,14 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    explosions = pygame.sprite.Group()
 
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = updateable
     Shot.containers = (shots, updateable, drawable)
+    Explosion.containers = (updateable, drawable)
+
     asteroid_field = AsteroidField()
 
     # init player class in the middle of the screen
@@ -51,7 +55,7 @@ def main():
         updateable.update(dt)
         player_invincibility -= 0.016
         
-        # Collision detection: player with asteroids -> game overa
+        # Collision detection: player with asteroids -> game over
         for asteroid in asteroids:
             if asteroid.collision(player) and player_invincibility <= 0:
                 if player_life > 0:

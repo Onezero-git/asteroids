@@ -2,6 +2,7 @@ import pygame # type: ignore
 from circleshape import CircleShape
 from constants import *
 import random
+from explosion import Explosion
 
 
 class Asteroid(CircleShape):
@@ -20,6 +21,14 @@ class Asteroid(CircleShape):
     def split(self, shot):
         self.kill()
         shot.kill()
+
+        # explosion effect for asteroids when shot
+        for i in range(0, 20):
+            explosion = Explosion(self.position.x, self.position.y)
+            explosion.velocity = pygame.Vector2(0,1).rotate(i * 18) * EXPLOSION_SPEED
+            explosion.timer = 0.3
+
+        # split effect but only at a minimum size
         if self.radius <= ASTEROID_MIN_RADIUS:
             return
         else:
