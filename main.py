@@ -1,5 +1,6 @@
 import pygame # type: ignore
 import sys
+import time
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -12,6 +13,10 @@ def main():
 
     clock = pygame.time.Clock()
     dt = 0
+    kills = 0
+    start = time.time()
+    player_life = 3
+    player_invincibility = 0
 
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -44,18 +49,33 @@ def main():
                 return
     
         updateable.update(dt)
+        player_invincibility -= 0.016
         
         # Collision detection: player with asteroids -> game overa
         for asteroid in asteroids:
-            if asteroid.collision(player):
-                print("Game over!")
-                sys.exit()
+            if asteroid.collision(player) and player_invincibility <= 0:
+                if player_life > 0:
+                    player_life -= 1
+                    player.position = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+                    player_invincibility = 2
+                else:
+                    print("Game over!")
+                    end = time.time()
+                    length = end - start
+                    if kills == 1:
+                        print(f"You survived for {int(length)} seconds!")
+                        print(f"You have destroyed {kills} asteroid!")
+                    else:
+                        print(f"You have played for {int(length)} seconds!")
+                        print(f"You have destroyed {kills} asteroids!")
+                    sys.exit()
 
         # Collision detection: shot with asteroids -> destroy both
         for asteroid in asteroids:
             for shot in shots:
                 if shot.collision(asteroid):
                     asteroid.split(shot)
+                    kills += 1
 
         # fills the screen black and draws player
         screen.fill("black")
