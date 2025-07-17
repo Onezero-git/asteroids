@@ -45,11 +45,17 @@ def main():
     
         updateable.update(dt)
         
-        # Collision detection
+        # Collision detection: player with asteroids -> game overa
         for asteroid in asteroids:
             if asteroid.collision(player):
                 print("Game over!")
                 sys.exit()
+
+        # Collision detection: shot with asteroids -> destroy both
+        for asteroid in asteroids:
+            for shot in shots:
+                if shot.collision(asteroid):
+                    asteroid.split(shot)
 
         # fills the screen black and draws player
         screen.fill("black")
