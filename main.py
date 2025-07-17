@@ -1,6 +1,8 @@
 import pygame # type: ignore
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 
 def main():
@@ -8,6 +10,15 @@ def main():
 
     clock = pygame.time.Clock()
     dt = 0
+
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = updateable
+    asteroid_field = AsteroidField()
 
     # init player class in the middle of the screen
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
@@ -27,11 +38,13 @@ def main():
             if event.type == pygame.QUIT:
                 print("Closing Ateroids.")
                 return
-            
+    
+        updateable.update(dt)
         # fills the screen black and draws player
-        pygame.Surface.fill(screen,(0,0,0))
-        player.draw(screen)
-        player.update(dt)
+        screen.fill("black")
+        for i in drawable:
+            i.draw(screen)
+
 
         # refreshes the screen, sets it to 60fps, sets dt(time from last refresh) to seconds
         pygame.display.flip()
